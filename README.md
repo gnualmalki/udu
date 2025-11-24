@@ -1,7 +1,9 @@
 # UDU
 UDU is an extremely fast, cross-platform tool for summarizing file and directory sizes by recursively scanning directories using a parallel traversal engine implemented with [OpenMP](https://www.openmp.org/), making it significantly faster than traditional tools on multi-core systems.
 
-[![CI](https://github.com/gnualmalki/udu/actions/workflows/ci.yml/badge.svg)](https://github.com/gnualmalki/udu/actions/workflows/ci.yml)
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gnualmalki/udu/ci.yml?label=Linux) | ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gnualmalki/udu/ci.yml?label=MacOS) | ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gnualmalki/udu/ci.yml?label=Windows)
+
 
 See [Benchmarks](./BENCHMARKS.md).
 
@@ -21,7 +23,7 @@ cmake --build build
 ```
 
 #### Windows (MSYS2)
-After installing MSYS2, open the UCRT64 terminal and install the required packages using `pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake`, then follow the UNIX instructions above.
+After installing MSYS2, open the msys2 terminal and install the required packages using `pacman -S gcc cmake`, then follow the UNIX instructions above.
 
 #### Windows (MSVC)
 Using Developer Command Prompt or PowerShell with the Visual Studio environment:
