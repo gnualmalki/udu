@@ -1,20 +1,17 @@
 # UDU
-UDU is an extremely fast, cross-platform tool for summarizing file and directory sizes by recursively scanning directories using a parallel traversal engine implemented with [OpenMP](https://www.openmp.org/), making it significantly faster than traditional tools on multi-core systems.
-
+UDU is an extremely fast and cross-platform tool for summarizing file and directory sizes by recursively scanning directories using a parallel traversal engine implemented with [OpenMP](https://www.openmp.org/) which makes it significantly faster than traditional tools on multi-core systems.
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gnualmalki/udu/ci.yml?label=Linux) | ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gnualmalki/udu/ci.yml?label=MacOS) | ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gnualmalki/udu/ci.yml?label=Windows)
-
 
 See [Benchmarks](./BENCHMARKS.md).
 
 ## Build Instructions
-Building UDU requires a modern C compiler such as [GCC](https://gcc.gnu.org/) 9.5 or later, [Clang](https://clang.llvm.org/) 14.0.6 or later, [MSVC](https://visualstudio.microsoft.com/) 17.2 or later, [CMake](https://cmake.org/) 3.15 and [OpenMP](https://www.openmp.org/) 3.0 or later (optional: parallel processing).
+Building UDU requires a modern C compiler such as [GCC](https://gcc.gnu.org/) 9.5 or [Clang](https://clang.llvm.org/) 14.0.0 (or later), [MSVC](https://visualstudio.microsoft.com/) 17.2 or later, [CMake](https://cmake.org/) 3.15 and [OpenMP](https://www.openmp.org/) 3.0 or later (optional: parallel processing).
 
-**NOTE ON WINDOWS:** MSVC versions less than 17.2 lack support for the OpenMP 3.0 features required by this program. If you're using an older MSVC version, the build system will automatically detect this and compile without OpenMP (single-threaded mode). For maximum performance on Windows, we recommend using [MSVC](https://visualstudio.microsoft.com/) 17.2 (VS 2022) or later with the LLVM OpenMP runtime (the build system handles that for you), or alternatively GCC or Clang through [MSYS2](https://www.msys2.org/) or [Cygwin](https://www.cygwin.com/), which provide modern toolchains with complete OpenMP 3.0 support.
+*On Windows, older MSVC versions do not support the OpenMP features we need. The build will work but `udu` will run single-threaded. Use MSVC 17.2 or newer, or alternatively use GCC or Clang through [MSYS2](https://www.msys2.org/) or [Cygwin](https://www.cygwin.com/), which provide modern toolchains with complete OpenMP 3.0 support.*
 
 #### UNIX
 Clone the repository and build using these commands:
-
 ```
 git clone --depth=1 https://github.com/gnualmalki/udu.git
 cd udu
@@ -23,11 +20,10 @@ cmake --build build
 ```
 
 #### Windows (MSYS2)
-After installing MSYS2, open the msys2 terminal and install the required packages using `pacman -S gcc cmake`, then follow the UNIX instructions above.
+After installing MSYS2, open the MSYS2 terminal and install the required packages using `pacman -S gcc cmake`, then follow the UNIX instructions above.
 
 #### Windows (MSVC)
-Using Developer Command Prompt or PowerShell with the Visual Studio environment:
-
+using the developer command prompt:
 ```
 git clone --depth=1 https://github.com/gnualmalki/udu.git
 cd udu
@@ -36,9 +32,8 @@ cmake --build build --config Release
 ```
 
 ## Usage
-
 ```
-Usage: udu [option(s)]... [path(s)]...
+Usage: udu [option(s)...] [path(s)...]
  extremely fast disk usage analyzer with parallel traversal engine.
 
  OPTIONS:
@@ -62,9 +57,6 @@ Report bugs to <https://github.com/gnualmalki/udu/issues>
 ```
 
 ## License
-THIS PROGRAM IS DISTRIBUTED UNDER GPL-3-OR-LATER; SEE THE [LICENSE](./LICENSE) FILE FOR DETAILS.
+THIS PROGRAM IS FREE SOFTWARE: YOU CAN REDISTRIBUTE IT AND OR MODIFY IT UNDER THE TERMS OF THE GNU GENERAL PUBLIC LICENSE AS PUBLISHED BY THE FREE SOFTWARE FOUNDATION, EITHER VERSION 3 OF THE LICENSE, OR ANY LATER VERSION.
 
-### Acknowledgements
-- Thanks to [OpenMP](https://openmp.org) specifications and its implementations by [GCC](https://gcc.gnu.org/) and [LLVM](https://llvm.org/) for making FOSS high-performance parallel computing possible.
-
-- Thanks to [xPack](https://github.com/xpack-dev-tools/gcc-xpack) for providing the GCC version used in CI.
+THIS PROGRAM IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  SEE THE GNU GENERAL PUBLIC LICENSE FOR MORE DETAILS.
