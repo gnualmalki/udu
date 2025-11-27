@@ -81,6 +81,9 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.version.outputs.version }}
+          body: |
+            *Linux binaries are built with GCC 15.*
+            *MacOS binaries are built with LLVM 21.*
           files: |
             *.tar.gz
             checksums.txt
