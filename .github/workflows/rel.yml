@@ -129,48 +129,6 @@ jobs:
           name: udu-aarch64-freebsd
           path: artifact/
 
-  build-openbsd-x86_64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build on OpenBSD x86_64
-        uses: vmactions/openbsd-vm@v1
-        with:
-          arch: x86_64
-          usesh: true
-          prepare: pkg_add llvm gmake
-          run: |
-            rm -rf artifact
-            mkdir artifact
-            gmake CC=cc -B
-            chmod +x udu
-            cp udu udu.1 README.md COPYING artifact/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: udu-x86_64-openbsd
-          path: artifact/
-
-  build-openbsd-aarch64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build on OpenBSD aarch64
-        uses: vmactions/openbsd-vm@v1
-        with:
-          arch: aarch64
-          usesh: true
-          prepare: pkg_add llvm gmake
-          run: |
-            rm -rf artifact
-            mkdir artifact
-            gmake CC=cc -B
-            chmod +x udu
-            cp udu udu.1 README.md COPYING artifact/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: udu-aarch64-openbsd
-          path: artifact/
-
   release:
     needs: 
       - build-linux-x86_64
@@ -179,8 +137,6 @@ jobs:
       - build-macos-arm
       - build-freebsd-x86_64
       - build-freebsd-aarch64
-      - build-openbsd-x86_64
-      - build-openbsd-aarch64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
