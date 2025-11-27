@@ -24,6 +24,7 @@ walk_result_t walk_paths(char **paths,
                          char **excludes,
                          int exclude_count,
                          bool apparent_size,
-                         bool verbose);
+                         bool verbose,
+                         bool tree);
 
 #endif

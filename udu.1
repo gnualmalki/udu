@@ -1,4 +1,4 @@
-.TH UDU 1 "2025" "udu 0.6.4" "User Commands"
+.TH UDU 1 "2025" "udu 0.6.6" "User Commands"
 .SH NAME
 udu \- fast disk usage analyzer with parallel directory traversal
 .SH SYNOPSIS
@@ -23,6 +23,11 @@ Display a summary of usage and exit.
 .TP
 .BR \-q ", " \-\-quiet
 Print output only after processing all input.  This is the default.
+.TP
+.BR \-t ", " \-\-tree
+Display directory contents in a tree structure with visual branch indicators.
+Directories are shown with a trailing slash and are listed before files.
+When combined with \fB\-v\fR, file sizes are displayed alongside each entry.
 .TP
 .BR \-v ", " \-\-verbose
 Print each processed file.
@@ -54,6 +59,12 @@ Process the current directory.
 .TP
 .B udu \-a ~/
 Display apparent sizes in the home directory.
+.TP
+.B udu \-t /etc
+Display the directory tree structure for /etc.
+.TP
+.B udu \-tv ~/projects
+Show a verbose tree view with file sizes for the projects directory.
 .TP
 .B udu \-v \-X '*.log' /var
 Verbose scan while excluding log files.
@@ -95,6 +106,7 @@ THIS PROGRAM IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT ANY 
 .BR du (1),
 .BR df (1),
 .BR ncdu (1),
+.BR tree (1),
 .BR find (1)
 .PP
 Project home page: <https://github.com/gnualmalki/udu>

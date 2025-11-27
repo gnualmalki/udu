@@ -31,25 +31,26 @@ make install # may require sudo
 
 ```bash
 Usage: udu [option(s)...] [path(s)...]
- extremely fast disk usage analyzer with parallel traversal engine.
+ Extremely fast disk-usage analyzer with a parallel traversal engine.
 
  OPTIONS:
   -a, --apparent-size    show file sizes instead of disk usage
-                          (apparent = bytes reported by filesystem,
+                          (apparent = bytes reported by the filesystem,
                            disk usage = actual space allocated)
   -h, --help             display this help and exit
-  -q, --quiet            display output at program exit (default)
+  -q, --quiet            display output only at program exit (default)
   -v, --verbose          display each processed file
-      --version          display version info and exit
-  -X, --exclude=PATTERN  skip files or directories that match glob pattern
+  -t, --tree             mimic the output of 'tree' command
+      --version          display version information and exit
+  -X, --exclude=PATTERN  skip files or directories that match a glob pattern
                           *        any characters
-                          ?        single character
-                          [abc]    any char in set
+                          ?        a single character
+                          [abc]    any character in the set
                           Examples: '*.log', 'temp?', '[0-9]*'
  EXAMPLE:
   udu ~/ -avX epstein-files
 
-Report bugs to <https://github.com/makestatic/udu/issues>
+Report bugs at <https://github.com/makestatic/udu/issues>
 ```
 
 ## License

@@ -1,5 +1,6 @@
 #include "args.h"
 #include "const.h"
+#include <stdbool.h>
 
 #define INIT_CAPACITY 16
 #define GROWTH_FACTOR 2
@@ -57,8 +58,16 @@ static bool handle_short_option(char opt,
         case 'v':
             args->verbose = true;
             args->quiet = false;
+            args->tree = false;
             return true;
         case 'q':
+            args->quiet = true;
+            args->verbose = false;
+            args->tree = false;
+            return true;
+
+        case 't':
+            args->tree = true;
             args->quiet = true;
             args->verbose = false;
             return true;
@@ -130,9 +139,17 @@ bool args_parse(args_t *args, int argc, char **argv)
             {
                 args->verbose = true;
                 args->quiet = false;
+                args->tree = false;
             }
             else if (strcmp(arg, "--quiet") == 0)
             {
+                args->quiet = true;
+                args->verbose = false;
+                args->tree = false;
+            }
+            else if (strcmp(arg, "--tree") == 0)
+            {
+                args->tree = true;
                 args->quiet = true;
                 args->verbose = false;
             }

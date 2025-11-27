@@ -17,6 +17,7 @@ typedef struct
     bool quiet;
     bool help;
     bool version;
+    bool tree;
 } args_t;
 
 void args_init(args_t *args);
