@@ -30,8 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          brew install llvm libomp make
-          echo "$(brew --prefix llvm)/bin/clang"
+          brew install llvm libomp
+          export PATH="$(brew --prefix llvm)/bin:$PATH" # set brew llvm default
           gmake -B
 
   macos-arm64:
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          brew install llvm libomp make
-          echo "$(brew --prefix llvm)/bin/clang"
+          brew install llvm libomp
+          export PATH="$(brew --prefix llvm)/bin:$PATH"
           gmake -B
 
