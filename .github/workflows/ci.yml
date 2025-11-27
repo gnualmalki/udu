@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           brew install llvm libomp make
-          make CC=clang -B
+          gmake CC=clang CFLAGS+="-I/usr/local/opt/libomp/include" LDFLAGS+="-L/usr/local/opt/libomp/lib" -B
 
   macos-arm64:
     runs-on: macos-latest
@@ -39,4 +39,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           brew install llvm libomp make
-          make CC=clang -B
+          gmake CC=clang CFLAGS+="-I/usr/local/opt/libomp/include" LDFLAGS+="-L/usr/local/opt/libomp/lib" -B
+
