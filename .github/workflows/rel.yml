@@ -138,7 +138,7 @@ jobs:
         with:
           arch: x86_64
           usesh: true
-          prepare: pkg_add bash gmake
+          prepare: pkg_add llvm gmake
           run: |
             rm -rf artifact
             mkdir artifact
@@ -159,7 +159,7 @@ jobs:
         with:
           arch: aarch64
           usesh: true
-          prepare: pkg_add bash gmake
+          prepare: pkg_add llvm gmake
           run: |
             rm -rf artifact
             mkdir artifact
