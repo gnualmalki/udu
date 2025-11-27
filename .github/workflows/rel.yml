@@ -141,7 +141,7 @@ jobs:
           release: "7.6"
           arch: x86_64
           usesh: true
-          prepare: pkg_add gmake
+          prepare: pkg_add bash gmake
           run: |
             rm -rf artifact
             mkdir artifact
@@ -163,7 +163,7 @@ jobs:
           release: "7.6"
           arch: aarch64
           usesh: true
-          prepare: pkg_add gmake
+          prepare: pkg_add bash gmake
           run: |
             rm -rf artifact
             mkdir artifact
