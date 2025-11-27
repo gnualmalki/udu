@@ -32,7 +32,7 @@ jobs:
       - run: |
           brew install llvm libomp make
           export PATH="/usr/local/opt/llvm/bin:$PATH"
-          gmake -B
+          gmake CC=/usr/local/opt/llvm/bin/clang -B
 
   macos-arm64:
     runs-on: macos-latest
@@ -41,5 +41,5 @@ jobs:
       - run: |
           brew install llvm libomp make
           export PATH="/usr/local/opt/llvm/bin:$PATH"
-          gmake -B
+          gmake CC=/usr/local/opt/llvm/bin/clang -B
 
