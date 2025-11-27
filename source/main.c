@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2023, 2024, 2025  Ali Almalki <gnualmalki@gmail.com>
+ * License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+ */
+
+////
+
 #include "args.h"
 #include "util.h"
 #include "walk.h"
@@ -33,8 +40,7 @@ int main(int argc, char **argv)
                                       args.excludes,
                                       args.exclude_count,
                                       args.apparent_size,
-                                      args.verbose,
-                                      args.quiet);
+                                      args.verbose);
 
     char size_str[32];
     printf("\nTotal: %s (%lu files, %lu directories)\n",

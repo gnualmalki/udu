@@ -8,103 +8,35 @@ on:
 
 jobs:
   linux-x64-gcc9:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y gcc-9 libgomp1 cmake make
-      - run: cmake -B build -DCMAKE_C_COMPILER=gcc-9
-      - run: cmake --build build -v
-
-  linux-x64-gcc10:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y gcc-10 libgomp1 cmake make
-      - run: cmake -B build -DCMAKE_C_COMPILER=gcc-10
-      - run: cmake --build build -v
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-9 libgomp1 make
+          make CC=gcc-9 -B
 
   linux-arm64-gcc9:
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y gcc-9 libgomp1 cmake make
-      - run: cmake -B build -DCMAKE_C_COMPILER=gcc-9
-      - run: cmake --build build -v
-
-  linux-arm64-gcc10:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y gcc-10 libgomp1 cmake make
-      - run: cmake -B build -DCMAKE_C_COMPILER=gcc-10
-      - run: cmake --build build -v
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-9 libgomp1 make
+          make CC=gcc-9 -B
 
   macos-x64:
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
-      - run: brew install llvm libomp
-      - run: export PATH="/usr/local/opt/llvm/bin:$PATH"
-      - run: cmake -B build -DCMAKE_BUILD_TYPE=Release
-      - run: cmake --build build -v
+      - run: |
+          brew install llvm libomp make
+          make CC=clang -B
 
   macos-arm64:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - run: brew install llvm libomp
-      - run: export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-      - run: cmake -B build -DCMAKE_BUILD_TYPE=Release
-      - run: cmake --build build -v
-
-  windows-x64-msvc:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: microsoft/setup-msbuild@v2
-      - run: cmake -B build -G "Visual Studio 17 2022" -A x64
-      - run: cmake --build build -v
-
-  windows-arm64-msvc:
-    runs-on: windows-11-arm
-    steps:
-      - uses: actions/checkout@v4
-      - uses: microsoft/setup-msbuild@v2
-      - run: cmake -B build -G "Visual Studio 17 2022" -A ARM64
-      - run: cmake --build build -v
-
-  windows-x64-msys2:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          install: |
-            mingw-w64-ucrt-x86_64-gcc
-            mingw-w64-ucrt-x86_64-cmake
-            mingw-w64-ucrt-x86_64-make
-      - run: cmake -B build
-      - run: cmake --build build -v
-
-  windows-arm64-msys2:
-    runs-on: windows-11-arm
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: msys2/setup-msys2@v2
-        with:
-          msystem: CLANGARM64
-          update: true
-          install: |
-            mingw-w64-clang-aarch64-clang
-            mingw-w64-clang-aarch64-cmake
-            mingw-w64-clang-aarch64-make
-      - run: cmake -B build
-      - run: cmake --build build -v
+      - run: |
+          brew install llvm libomp make
+          make CC=clang -B

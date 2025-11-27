@@ -1,10 +1,7 @@
 #include "args.h"
 #include "const.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define INITIAL_CAPACITY 16
+#define INIT_CAPACITY 16
 #define GROWTH_FACTOR 2
 
 static bool ensure_capacity(char ***array, int *capacity, int count)
@@ -86,8 +83,8 @@ static bool handle_short_option(char opt,
 
 bool args_parse(args_t *args, int argc, char **argv)
 {
-    int path_capacity = INITIAL_CAPACITY;
-    int exclude_capacity = INITIAL_CAPACITY;
+    int path_capacity = INIT_CAPACITY;
+    int exclude_capacity = INIT_CAPACITY;
 
     args->paths = malloc(path_capacity * sizeof(char *));
     args->excludes = malloc(exclude_capacity * sizeof(char *));

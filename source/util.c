@@ -1,6 +1,4 @@
 #include "util.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 // *readablelity*
 #define UC(s) ((const unsigned char *)(s))
@@ -86,11 +84,7 @@ char *path_join(const char *parent, const char *child)
     size_t plen = strlen(parent);
     size_t clen = strlen(child);
 
-#ifdef _WIN32
-    const char sep = '\\';
-#else
     const char sep = '/';
-#endif
 
     bool has_sep =
       plen > 0 && (parent[plen - 1] == '/' || parent[plen - 1] == '\\');

@@ -1,8 +1,16 @@
-#ifndef WALK_H
-#define WALK_H
+#ifndef UDU_WALK_H
+#define UDU_WALK_H
 
+#include "platform.h"
+#include "util.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifdef _OPENMP
+    #include <omp.h>
+#endif
 
 typedef struct
 {
@@ -16,7 +24,6 @@ walk_result_t walk_paths(char **paths,
                          char **excludes,
                          int exclude_count,
                          bool apparent_size,
-                         bool verbose,
-                         bool quiet);
+                         bool verbose);
 
 #endif

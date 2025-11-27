@@ -3,7 +3,7 @@
 #endif
 
 static const char *USAGE =
-  "Usage: udu [option(s)]... [path(s)]...\n"
+  "Usage: udu [option(s)...] [path(s)...]\n"
   " extremely fast disk usage analyzer with parallel traversal engine.\n\n"
 
   " OPTIONS:\n"
@@ -24,7 +24,7 @@ static const char *USAGE =
   "Report bugs to <https://github.com/makestatic/udu/issues>\n";
 
 static const char *LICENSE =
-  "Copyright (C) 2023, 2024, 2025  Ali Almalki.\n"
+  "Copyright (C) 2023, 2024, 2025  Ali Almalki <gnualmalki@gmail.com>\n"
   "License GPLv3+: GNU GPL version 3 or later "
   "<https://gnu.org/licenses/gpl.html>\n"
   "This is free software: you are free to change and redistribute it.\n"

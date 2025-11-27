@@ -3,4 +3,5 @@
 zig/zig-out/
 /.zig-cache/
 zig/.zig-cache/
+*.tar.gz
 *.log

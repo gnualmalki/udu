@@ -1,9 +1,11 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef UDU_UTIL_H
+#define UDU_UTIL_H
 
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 bool glob_match(const char *pattern, const char *text);

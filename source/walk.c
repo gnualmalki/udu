@@ -1,12 +1,4 @@
 #include "walk.h"
-#include "platform.h"
-#include "util.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-#ifdef _OPENMP
-    #include <omp.h>
-#endif
 
 #define MAX_SYMLINK_DEPTH 64
 
@@ -131,8 +123,7 @@ walk_result_t walk_paths(char **paths,
                          char **excludes,
                          int exclude_count,
                          bool apparent_size,
-                         bool verbose,
-                         bool quiet)
+                         bool verbose)
 {
     walk_context_t ctx = { .excludes = excludes,
                            .exclude_count = exclude_count,
