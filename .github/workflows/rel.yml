@@ -15,33 +15,37 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
+            sys: linux
             arch: x86_64
             compiler: gcc
             gcc_url: https://github.com/xpack-dev-tools/gcc-xpack/releases/download/v15.2.0-1/xpack-gcc-15.2.0-1-linux-x64.tar.gz
           - os: ubuntu-24.04-arm
+            sys: linux
             arch: aarch64
             compiler: gcc
             gcc_url: https://github.com/xpack-dev-tools/gcc-xpack/releases/download/v15.2.0-1/xpack-gcc-15.2.0-1-linux-arm64.tar.gz
           - os: macos-15-intel
+            sys: darwin
             arch: x86_64
             compiler: clang
           - os: macos-latest
+            sys: darwin
             arch: aarch64
             compiler: clang
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install compiler
+      - name: Install toolchain
         run: |
           set -e
           if [[ "${{ matrix.compiler }}" == gcc ]]; then
-            wget ${{ matrix.gcc_url }}
+            wget -q ${{ matrix.gcc_url }}
             tar -xf xpack-gcc-*.tar.gz
             echo "CC=$(pwd)/xpack-gcc-15.2.0-1/bin/gcc" >> $GITHUB_ENV
           else
-            brew install llvm libomp
-            echo "CC=$(brew --prefix llvm)/bin/clang" >> $GITHUB_ENV
+            brew install llvm@21 libomp
+            echo "CC=$(brew --prefix llvm@21)/bin/clang" >> $GITHUB_ENV
           fi
 
       - name: Build
@@ -49,15 +53,70 @@ jobs:
           rm -rf artifact
           mkdir artifact
           make CC=$CC -B
-          cp udu README.md COPYING artifact/
+          cp udu udu.1 README.md COPYING artifact/
 
       - uses: actions/upload-artifact@v4
         with:
-          name: udu-${{ matrix.os }}-${{ matrix.arch }}
+          name: udu-${{ matrix.arch }}-${{ matrix.sys }}
+          path: artifact/
+
+  build-bsd:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: freebsd
+            version: '14.2'
+            arch: x86_64
+          - os: freebsd
+            version: '14.2'
+            arch: aarch64
+          - os: openbsd
+            version: '7.6'
+            arch: x86_64
+          - os: openbsd
+            version: '7.6'
+            arch: aarch64
+          - os: netbsd
+            version: '10.1'
+            arch: x86_64
+          - os: netbsd
+            version: '10.1'
+            arch: aarch64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build on ${{ matrix.os }}
+        uses: vmactions/${{ matrix.os }}-vm@v1
+        with:
+          release: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+          usesh: true
+          prepare: |
+            set -e
+            if [ "${{ matrix.os }}" = "freebsd" ]; then
+              pkg install -y gmake
+            elif [ "${{ matrix.os }}" = "openbsd" ]; then
+              pkg_add gmake
+            elif [ "${{ matrix.os }}" = "netbsd" ]; then
+              pkg_add -y gmake
+            fi
+          run: |
+            set -e
+            rm -rf artifact
+            mkdir artifact
+            gmake CC=cc -B
+            chmod +x udu
+            cp udu udu.1 README.md COPYING artifact/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: udu-${{ matrix.arch }}-${{ matrix.os }}
           path: artifact/
 
   release:
-    needs: build
+    needs: [build, build-bsd]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -85,8 +144,11 @@ jobs:
         with:
           name: ${{ steps.version.outputs.version }}
           body: |
-            *Linux binaries are built with GCC 15.*
-            *MacOS binaries are built with LLVM 21.*
+            *Linux binaries are built with GCC 15*
+
+            *MacOS binaries are built with LLVM 21*
+
+            *BSD binaries are built with system toolchain (LLVM)*
           files: |
             *.tar.gz
             checksums.txt
