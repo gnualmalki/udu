@@ -17,6 +17,11 @@ VERSION   := $(shell cat VERSION)
 CFLAGS    += -DVERSION="\"$(VERSION)\""
 DEPS      := $(OBJ:.o=.d)
 
+ifeq ($(MAC_CI),1)
+	CFLAGS+= -I/usr/local/opt/libomp/include
+	LDFLAGS+= -L/usr/local/opt/libomp/lib
+endif
+
 all: options $(EXE)
 
 options:
