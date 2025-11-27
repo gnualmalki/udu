@@ -1,7 +1,5 @@
-/build/
-/zig-out/
-zig/zig-out/
-/.zig-cache/
-zig/.zig-cache/
+udu*
+*.o
+*.d
 *.tar.gz
 *.log

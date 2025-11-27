@@ -3,36 +3,37 @@
 .POSIX:
 
 EXE       := udu
-SRC       := source/args.c \
-			 source/main.c \
-			 source/platform.c \
-			 source/util.c \
-			 source/walk.c
+SRC       := args.c \
+			 main.c \
+			 platform.c \
+			 util.c \
+			 walk.c
 
 OBJ       := $(SRC:.c=.o)
 CC        := gcc
-CFLAGS    := -Wall -Wextra -O3 -std=gnu11 -fopenmp
-LDFLAGS   := -fopenmp
+CFLAGS    := -Wall -Wextra -O3 -std=gnu11
+LDFLAGS   :=
 VERSION   := $(shell cat VERSION)
 CFLAGS    += -DVERSION="\"$(VERSION)\""
 DEPS      := $(OBJ:.o=.d)
 
-# ifeq ($(MAC_CI),1)
-# 	CFLAGS+= -I/usr/local/opt/libomp/include
-# 	LDFLAGS+= -L/usr/local/opt/libomp/lib
-# endif
-
 all: options $(EXE)
 
+# skip on non-build targets
+ifeq ($(filter clean dist uninstall,$(MAKECMDGOALS)),)
+    -include omp.mk
+    -include lto.mk
+endif
+
+-include $(DEPS)
+
 options:
-	@echo "CFLAGS  = $(CFLAGS)"
-	@echo "LDFLAGS = $(LDFLAGS)"
-	@echo "CC      = $(CC)"
+	$(info [INFO]: CC = ($(CC)))
+	$(info [INFO]: CFLAGS = ($(CFLAGS)))
+	$(info [INFO]: LDFLAGS = ($(LDFLAGS)))
 
 %.o: %.c
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
-
--include $(DEPS)
 
 $(EXE): $(OBJ)
 	$(CC) -o $@ $(OBJ) $(LDFLAGS)
