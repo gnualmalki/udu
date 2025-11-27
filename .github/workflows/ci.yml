@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           brew install llvm libomp make
-          gmake CC=clang MAC_CI=1 -B
+          gmake CC=/usr/local/opt/llvm/bin/clang -B
 
   macos-arm64:
     runs-on: macos-latest
@@ -39,5 +39,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           brew install llvm libomp make
-          gmake CC=clang MAC_CI=1 -B
+          gmake CC=/usr/local/opt/llvm/bin/clang -B
 
