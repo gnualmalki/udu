@@ -9,127 +9,193 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            sys: linux
-            arch: x86_64
-            compiler: gcc
-            gcc_url: https://github.com/xpack-dev-tools/gcc-xpack/releases/download/v15.2.0-1/xpack-gcc-15.2.0-1-linux-x64.tar.gz
-          - os: ubuntu-24.04-arm
-            sys: linux
-            arch: aarch64
-            compiler: gcc
-            gcc_url: https://github.com/xpack-dev-tools/gcc-xpack/releases/download/v15.2.0-1/xpack-gcc-15.2.0-1-linux-arm64.tar.gz
-          - os: macos-15-intel
-            sys: darwin
-            arch: x86_64
-            compiler: clang
-          - os: macos-latest
-            sys: darwin
-            arch: aarch64
-            compiler: clang
-
+  build-linux-x86_64:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install toolchain
+      - name: Install GCC
         run: |
-          set -e
-          if [[ "${{ matrix.compiler }}" == gcc ]]; then
-            wget -q ${{ matrix.gcc_url }}
-            tar -xf xpack-gcc-*.tar.gz
-            echo "CC=$(pwd)/xpack-gcc-15.2.0-1/bin/gcc" >> $GITHUB_ENV
-          else
-            brew install llvm@21 libomp
-            echo "CC=$(brew --prefix llvm@21)/bin/clang" >> $GITHUB_ENV
-          fi
-
+          wget -q https://github.com/xpack-dev-tools/gcc-xpack/releases/download/v15.2.0-1/xpack-gcc-15.2.0-1-linux-x64.tar.gz
+          tar -xf xpack-gcc-15.2.0-1-linux-x64.tar.gz
+          echo "CC=$(pwd)/xpack-gcc-15.2.0-1/bin/gcc" >> $GITHUB_ENV
       - name: Build
         run: |
           rm -rf artifact
           mkdir artifact
           make CC=$CC -B
           cp udu udu.1 README.md COPYING artifact/
-
       - uses: actions/upload-artifact@v4
         with:
-          name: udu-${{ matrix.arch }}-${{ matrix.sys }}
+          name: udu-x86_64-linux
           path: artifact/
 
-  build-bsd:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - os: freebsd
-            version: '14.2'
-            arch: x86_64
-          - os: freebsd
-            version: '14.2'
-            arch: aarch64
-          - os: openbsd
-            version: '7.6'
-            arch: x86_64
-          - os: openbsd
-            version: '7.6'
-            arch: aarch64
-          - os: netbsd
-            version: '10.1'
-            arch: x86_64
-          - os: netbsd
-            version: '10.1'
-            arch: aarch64
-
+  build-linux-aarch64:
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
-
-      - name: Build on ${{ matrix.os }}
-        uses: vmactions/${{ matrix.os }}-vm@v1
+      - name: Install GCC
+        run: |
+          wget -q https://github.com/xpack-dev-tools/gcc-xpack/releases/download/v15.2.0-1/xpack-gcc-15.2.0-1-linux-arm64.tar.gz
+          tar -xf xpack-gcc-15.2.0-1-linux-arm64.tar.gz
+          echo "CC=$(pwd)/xpack-gcc-15.2.0-1/bin/gcc" >> $GITHUB_ENV
+      - name: Build
+        run: |
+          rm -rf artifact
+          mkdir artifact
+          make CC=$CC -B
+          cp udu udu.1 README.md COPYING artifact/
+      - uses: actions/upload-artifact@v4
         with:
-          release: ${{ matrix.version }}
-          arch: ${{ matrix.arch }}
+          name: udu-aarch64-linux
+          path: artifact/
+
+  build-macos-intel:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Clang
+        run: |
+          brew install llvm@21 libomp
+          echo "CC=$(brew --prefix llvm@21)/bin/clang" >> $GITHUB_ENV
+      - name: Build
+        run: |
+          rm -rf artifact
+          mkdir artifact
+          make CC=$CC -B
+          cp udu udu.1 README.md COPYING artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: udu-x86_64-darwin
+          path: artifact/
+
+  build-macos-arm:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Clang
+        run: |
+          brew install llvm@21 libomp
+          echo "CC=$(brew --prefix llvm@21)/bin/clang" >> $GITHUB_ENV
+      - name: Build
+        run: |
+          rm -rf artifact
+          mkdir artifact
+          make CC=$CC -B
+          cp udu udu.1 README.md COPYING artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: udu-aarch64-darwin
+          path: artifact/
+
+  build-freebsd-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build on FreeBSD x86_64
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "14.2"
+          arch: x86_64
           usesh: true
-          prepare: |
-            set -e
-            if [ "${{ matrix.os }}" = "freebsd" ]; then
-              pkg install -y gmake
-            elif [ "${{ matrix.os }}" = "openbsd" ]; then
-              pkg_add gmake
-            elif [ "${{ matrix.os }}" = "netbsd" ]; then
-              pkg_add -y gmake
-            fi
+          prepare: pkg install -y gmake
           run: |
-            set -e
             rm -rf artifact
             mkdir artifact
             gmake CC=cc -B
             chmod +x udu
             cp udu udu.1 README.md COPYING artifact/
-
       - uses: actions/upload-artifact@v4
         with:
-          name: udu-${{ matrix.arch }}-${{ matrix.os }}
+          name: udu-x86_64-freebsd
+          path: artifact/
+
+  build-freebsd-aarch64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build on FreeBSD aarch64
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "14.2"
+          arch: aarch64
+          usesh: true
+          prepare: pkg install -y gmake
+          run: |
+            rm -rf artifact
+            mkdir artifact
+            gmake CC=cc -B
+            chmod +x udu
+            cp udu udu.1 README.md COPYING artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: udu-aarch64-freebsd
+          path: artifact/
+
+  build-openbsd-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build on OpenBSD x86_64
+        uses: vmactions/openbsd-vm@v1
+        with:
+          release: "7.6"
+          arch: x86_64
+          usesh: true
+          prepare: pkg_add gmake
+          run: |
+            rm -rf artifact
+            mkdir artifact
+            gmake CC=cc -B
+            chmod +x udu
+            cp udu udu.1 README.md COPYING artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: udu-x86_64-openbsd
+          path: artifact/
+
+  build-openbsd-aarch64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build on OpenBSD aarch64
+        uses: vmactions/openbsd-vm@v1
+        with:
+          release: "7.6"
+          arch: aarch64
+          usesh: true
+          prepare: pkg_add gmake
+          run: |
+            rm -rf artifact
+            mkdir artifact
+            gmake CC=cc -B
+            chmod +x udu
+            cp udu udu.1 README.md COPYING artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: udu-aarch64-openbsd
           path: artifact/
 
   release:
-    needs: [build, build-bsd]
+    needs: 
+      - build-linux-x86_64
+      - build-linux-aarch64
+      - build-macos-intel
+      - build-macos-arm
+      - build-freebsd-x86_64
+      - build-freebsd-aarch64
+      - build-openbsd-x86_64
+      - build-openbsd-aarch64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
-
       - name: Extract version
         id: version
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
           VERSION="${TAG_NAME#udu@}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-
       - name: Package artifacts
         run: |
           cd artifacts
@@ -139,7 +205,6 @@ jobs:
           done
           cd ..
           sha256sum *.tar.gz > checksums.txt
-
       - uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.version.outputs.version }}
