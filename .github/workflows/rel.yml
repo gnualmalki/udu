@@ -94,7 +94,6 @@ jobs:
       - name: Build on FreeBSD x86_64
         uses: vmactions/freebsd-vm@v1
         with:
-          release: "14.2"
           arch: x86_64
           usesh: true
           prepare: pkg install -y gmake
@@ -116,7 +115,6 @@ jobs:
       - name: Build on FreeBSD aarch64
         uses: vmactions/freebsd-vm@v1
         with:
-          release: "14.2"
           arch: aarch64
           usesh: true
           prepare: pkg install -y gmake
@@ -138,7 +136,6 @@ jobs:
       - name: Build on OpenBSD x86_64
         uses: vmactions/openbsd-vm@v1
         with:
-          release: "7.6"
           arch: x86_64
           usesh: true
           prepare: pkg_add bash gmake
@@ -160,7 +157,6 @@ jobs:
       - name: Build on OpenBSD aarch64
         uses: vmactions/openbsd-vm@v1
         with:
-          release: "7.6"
           arch: aarch64
           usesh: true
           prepare: pkg_add bash gmake
