@@ -31,7 +31,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           brew install llvm libomp make
-          gmake CC=/usr/local/opt/llvm/bin/clang -B
+          echo "$(brew --prefix llvm)/bin/clang"
+          gmake -B
 
   macos-arm64:
     runs-on: macos-latest
@@ -39,5 +40,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           brew install llvm libomp make
-          gmake CC=/usr/local/opt/llvm/bin/clang -B
+          echo "$(brew --prefix llvm)/bin/clang"
+          gmake -B
 
