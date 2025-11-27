@@ -1,6 +1,6 @@
 # UDU
 
-UDU is an extremely fast POSIX-command-line-program for summarizing file and directory sizes by recursively scanning directories using a parallel traversal engine implemented with [OpenMP](https://www.openmp.org/), which makes it significantly faster than traditional tools on multi-core systems.
+UDU is an extremely fast POSIX-command-line-program for summarizing file and directory sizes by recursively scanning directories using a parallel traversal engine implemented with [OpenMP](https://www.openmp.org/) making it significantly faster than traditional tools on multi-core systems.
 
 See [Benchmarks](./BENCHMARKS.md).
 
