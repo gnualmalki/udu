@@ -1,4 +1,8 @@
 #include "platform.h"
+#include <dirent.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 
 #define BLOCK_SIZE 512
 
@@ -19,7 +23,7 @@ bool platform_stat(const char *path, platform_stat_t *st)
     st->is_directory = S_ISDIR(sb.st_mode);
     st->size_apparent = (uint64_t)sb.st_size;
 
-#if defined(__APPLE__) || defined(__linux__)
+#if defined(__APPLE__) || defined(__linux__) // BSDs....??
     st->size_allocated = (uint64_t)sb.st_blocks * BLOCK_SIZE;
 #else
     st->size_allocated = st->size_apparent;

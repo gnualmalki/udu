@@ -1,9 +1,10 @@
 #include "util.h"
+#include "const.h"
 
 // *readablelity*
 #define UC(s) ((const unsigned char *)(s))
 
-static bool match_class(const unsigned char **patp, unsigned char c)
+UDU_SI bool match_class(const unsigned char **patp, unsigned char c)
 {
     const unsigned char *p = *patp;
     bool negate = (*p == '!' || *p == '^');
@@ -34,7 +35,7 @@ static bool match_class(const unsigned char **patp, unsigned char c)
     return negate ? !matched : matched;
 }
 
-static bool glob_match_impl(const unsigned char *pat, const unsigned char *txt)
+bool glob_match_impl(const unsigned char *pat, const unsigned char *txt)
 {
     while (*pat)
     {

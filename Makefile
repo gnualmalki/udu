@@ -12,8 +12,8 @@ SRC       := args.c \
 
 OBJ       := $(SRC:.c=.o)
 DEPS      := $(OBJ:.o=.d)
-CC        := gcc
-CFLAGS    := -Wall -Wextra -O3 -std=gnu11
+CC        := cc
+CFLAGS    := -Wall -Wextra -O3 -std=c11 -D_POSIX_C_SOURCE=200809L
 LDFLAGS   :=
 VERSION   := $(shell cat VERSION)
 CFLAGS    += -DVERSION="\"$(VERSION)\""
@@ -32,9 +32,11 @@ endif
 -include $(DEPS)
 
 options:
-	$(info [INFO]: CC = $(CC))
-	$(info [INFO]: CFLAGS = $(CFLAGS))
-	$(info [INFO]: LDFLAGS = $(LDFLAGS))
+	@echo "[INFO]: CC = $(CC)"
+	@echo "[INFO]: CFLAGS = $(CFLAGS)"
+	@echo "[INFO]: LDFLAGS = $(LDFLAGS)"
+	@echo "[INFO]: OPENMP = $(OMP_MSG)"
+	@echo "[INFO]: LTO = $(LTO_MSG)"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
@@ -49,17 +51,16 @@ dist: clean
 	tar --exclude="*.tar.gz" -czf $(EXE)-$(VERSION).tar.gz .
 
 install: $(EXE)
-	mkdir -p $(DESTDIR)$(BINDIR)
-	cp -f $(EXE) $(DESTDIR)$(BINDIR)
-	chmod 755 $(DESTDIR)$(BINDIR)/$(EXE)
-
-	mkdir -p $(DESTDIR)$(MANDIR)
-	cp -f $(MAN) $(DESTDIR)$(MANDIR)
-	chmod 644 $(DESTDIR)$(MANDIR)/$(MAN)
+	install -Dv -m 755 $(EXE) $(DESTDIR)$(BINDIR)/$(EXE)
+	install -Dv -m 644 $(MAN) $(DESTDIR)$(MANDIR)/$(MAN)
 
 uninstall:
 	rm -f $(DESTDIR)$(BINDIR)/$(EXE)
 	rm -f $(DESTDIR)$(MANDIR)/$(MAN)
+
+man:
+	rm -f udu.1
+	pandoc -f markdown -s -t man udu.man -o udu.1
 
 
 .PHONY: all options clean dist install uninstall

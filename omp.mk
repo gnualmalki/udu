@@ -6,9 +6,9 @@ OMP_OK := $(shell echo '\#include <omp.h>' | \
            awk '/_OPENMP/ { if ($$3 >= 200805) print "OK" }')
 
 ifeq ($(OMP_OK),OK)
-    $(info [INFO]: OpenMP version >= 3.0 found (enabled))
     CFLAGS  += -fopenmp
     LDFLAGS += -fopenmp
+	OMP_MSG := enabled (OpenMP >= 3.0)
 else
-	$(warning [WARNING]: OpenMP < 3.0 detected or not available (BUILDING WITHOUT OPENMP))
+    OMP_MSG := disabled (OpenMP < 3.0 detected or not available)
 endif

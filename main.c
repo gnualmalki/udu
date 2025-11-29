@@ -36,19 +36,13 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    walk_result_t result = walk_paths(args.paths,
-                                      args.path_count,
-                                      args.excludes,
-                                      args.exclude_count,
-                                      args.apparent_size,
-                                      args.verbose,
-                                      args.tree);
+    walk_result_t result = walk_paths(&args);
 
     char size_str[32];
     printf("\nTotal: %s (%lu files, %lu directories)\n",
            human_size(result.total_size, size_str, sizeof(size_str)),
-           result.file_count,
-           result.dir_count);
+           result.nfiles,
+           result.ndirs);
 
     args_free(&args);
     return 0;
