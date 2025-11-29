@@ -1,0 +1,19 @@
+CompileFlags:
+  Add:
+    - -Wall
+    - -Wextra
+    - -O3
+    - -std=gnu11
+    - -xc
+  Compiler: gcc
+
+Diagnostics:
+  UnusedIncludes: Strict
+  Suppress:
+    - '-Wc++-compat'
+
+Index:
+  Background: Build
+
+Completion:
+  AllScopes: true
