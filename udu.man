@@ -1,0 +1,99 @@
+---
+title: UDU
+section: 1
+header: User Commands
+footer: udu 0.6.9
+date: 2025
+---
+
+# NAME
+
+udu - disk usage analyzer
+
+# SYNOPSIS
+
+**udu** [*OPTION*]... [*FILE*]...
+
+# DESCRIPTION
+
+**udu** analyzes disk usage by scanning directory trees and computing the total space consumed by files and directories.  When built with OpenMP support, it parallelizes directory traversal across multiple cores to accelerate analysis of large filesystem hierarchies.
+
+If no *FILE* is specified, **udu** processes the current directory and all subdirectories recursively.
+
+# OPTIONS
+
+Mandatory arguments to long options are mandatory for short options too.
+
+**-a**, **--apparent-size**  
+print apparent sizes, rather than disk usage; the apparent size is usually smaller than disk usage, but it can be larger due to holes in sparse files, internal fragmentation, or indirect blocks
+
+**-h**, **--help**  
+display this help and exit
+
+**-q**, **--quiet**  
+suppress normal output; print only the final result (default)
+
+**-t**, **--tree**  
+display output in tree format; directories are listed before files and marked with a trailing slash
+
+**-v**, **--verbose**  
+explain what is being done
+
+**--version**  
+output version information and exit
+
+**-X**, **--exclude=**\*PATTERN\*  
+exclude files that match *PATTERN*
+
+*PATTERN* is a shell pattern (not a regular expression).  The pattern characters are:
+
+**?** — matches any single character  
+**\*** — matches any string, including the empty string  
+**[...]** — matches any one of the enclosed characters
+
+# EXAMPLES
+
+**udu**  
+Summarize disk usage of the current directory.
+
+**udu -a /home**  
+Summarize apparent size of /home.
+
+**udu -t /etc**  
+Display disk usage of /etc as a tree.
+
+**udu -X '\*.o' src/**  
+Summarize src/ but exclude object files.
+
+**udu /home /var -X temp -X cache**  
+Summarize two directories while excluding temp and cache.
+
+# PATTERNS
+
+The **-X** (or **--exclude**) option uses shell pattern matching.  Patterns match against the full path being examined.
+
+For a more complete description of pattern matching, see **glob**(7).
+
+# AUTHOR
+
+Written by Ali Almalki.
+
+# BUGS
+
+Report bugs to: <https://github.com/gnualmalki/udu/issues>
+
+# COPYRIGHT
+
+Copyright © 2023, 2024, 2025 Ali Almalki <gnualmalki@gmail.com>.
+
+This is free software: you are free to change and redistribute it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+This documentation is under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation.
+
+# SEE ALSO
+
+**du**(1), **df**(1)
+
+Home page: <https://github.com/gnualmalki/udu>
