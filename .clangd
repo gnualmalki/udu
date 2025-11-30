@@ -2,7 +2,7 @@ CompileFlags:
   Add:
     - -Wall
     - -Wextra
-    - -O3
+    - -O1
     - -std=gnu11
     - -xc
   Compiler: gcc

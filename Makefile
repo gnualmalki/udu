@@ -4,16 +4,13 @@
 
 EXE       := udu
 MAN       := udu.1
-SRC       := args.c \
-             main.c \
-             platform.c \
-             util.c \
-             walk.c
+SRC       := main.c walk.c
+             
 
 OBJ       := $(SRC:.c=.o)
 DEPS      := $(OBJ:.o=.d)
 CC        := cc
-CFLAGS    := -Wall -Wextra -O3 -std=c11 -D_POSIX_C_SOURCE=200809L
+CFLAGS    := -Wall -Wextra -O3 -std=gnu11
 LDFLAGS   :=
 VERSION   := $(shell cat VERSION)
 CFLAGS    += -DVERSION="\"$(VERSION)\""
@@ -23,7 +20,7 @@ MANDIR    := $(PREFIX)/share/man/man1
 
 all: options $(EXE)
 
-# skip on non-build targets
+# skip non-build targets
 ifeq ($(filter clean dist install uninstall,$(MAKECMDGOALS)),)
     -include omp.mk
     -include lto.mk
@@ -51,12 +48,12 @@ dist: clean
 	tar --exclude="*.tar.gz" -czf $(EXE)-$(VERSION).tar.gz .
 
 install: $(EXE)
-	install -Dv -m 755 $(EXE) $(DESTDIR)$(BINDIR)/$(EXE)
-	install -Dv -m 644 $(MAN) $(DESTDIR)$(MANDIR)/$(MAN)
+	install -Dv -m 755 $(EXE) $(BINDIR)/$(EXE)
+	install -Dv -m 644 $(MAN) $(MANDIR)/$(MAN)
 
 uninstall:
-	rm -f $(DESTDIR)$(BINDIR)/$(EXE)
-	rm -f $(DESTDIR)$(MANDIR)/$(MAN)
+	rm -f $(BINDIR)/$(EXE)
+	rm -f $(MANDIR)/$(MAN)
 
 man:
 	rm -f udu.1
