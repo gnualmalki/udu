@@ -145,8 +145,8 @@ jobs:
           run: |
             /usr/sbin/pkg_add -v pkgin
             pkgin update
-            pkgin install gmake
-            pkgin install parallel/openmp
+            pkgin install -y gmake
+            pkgin install -y openmp
             rm -rf artifact
             mkdir artifact
             gmake CC=cc -B
@@ -172,8 +172,8 @@ jobs:
           run: |
             /usr/sbin/pkg_add -v pkgin
             pkgin update
-            pkgin install gmake
-            pkgin install parallel/openmp
+            pkgin install -y gmake
+            pkgin install -y openmp
             rm -rf artifact
             mkdir artifact
             gmake CC=cc -B
