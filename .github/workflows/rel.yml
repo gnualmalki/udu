@@ -23,7 +23,7 @@ jobs:
           rm -rf artifact
           mkdir artifact
           make CC=$CC -B
-          cp udu udu.1 README.md COPYING artifact/
+          cp udu udu.1 COPYING artifact/
       - uses: actions/upload-artifact@v4
         with:
           name: udu-x86_64-linux
@@ -43,7 +43,7 @@ jobs:
           rm -rf artifact
           mkdir artifact
           make CC=$CC -B
-          cp udu udu.1 README.md COPYING artifact/
+          cp udu udu.1 COPYING artifact/
       - uses: actions/upload-artifact@v4
         with:
           name: udu-aarch64-linux
@@ -62,7 +62,7 @@ jobs:
           rm -rf artifact
           mkdir artifact
           make CC=$CC -B
-          cp udu udu.1 README.md COPYING artifact/
+          cp udu udu.1 COPYING artifact/
       - uses: actions/upload-artifact@v4
         with:
           name: udu-x86_64-darwin
@@ -81,7 +81,7 @@ jobs:
           rm -rf artifact
           mkdir artifact
           make CC=$CC -B
-          cp udu udu.1 README.md COPYING artifact/
+          cp udu udu.1 COPYING artifact/
       - uses: actions/upload-artifact@v4
         with:
           name: udu-aarch64-darwin
@@ -102,7 +102,7 @@ jobs:
             mkdir artifact
             gmake CC=cc -B
             chmod +x udu
-            cp udu udu.1 README.md COPYING artifact/
+            cp udu udu.1 COPYING artifact/
       - uses: actions/upload-artifact@v4
         with:
           name: udu-x86_64-freebsd
@@ -123,7 +123,7 @@ jobs:
             mkdir artifact
             gmake CC=cc -B
             chmod +x udu
-            cp udu udu.1 README.md COPYING artifact/
+            cp udu udu.1 COPYING artifact/
       - uses: actions/upload-artifact@v4
         with:
           name: udu-aarch64-freebsd
