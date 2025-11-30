@@ -2,7 +2,7 @@
 title: UDU
 section: 1
 header: User Commands
-footer: udu 0.6.9
+footer: udu 0.6.91
 date: 2025
 ---
 
@@ -28,7 +28,7 @@ Mandatory arguments to long options are mandatory for short options too.
 print apparent sizes, rather than disk usage; the apparent size is usually smaller than disk usage, but it can be larger due to holes in sparse files, internal fragmentation, or indirect blocks
 
 **-h**, **--help**  
-display this help and exit
+display help message and exit
 
 **-q**, **--quiet**  
 suppress normal output; print only the final result (default)
@@ -37,10 +37,10 @@ suppress normal output; print only the final result (default)
 display output in tree format; directories are listed before files and marked with a trailing slash
 
 **-v**, **--verbose**  
-explain what is being done
+display each processed file
 
 **--version**  
-output version information and exit
+display version information and exit
 
 **-X**, **--exclude=**\*PATTERN\*  
 exclude files that match *PATTERN*
@@ -60,7 +60,7 @@ Summarize disk usage of the current directory.
 Summarize apparent size of /home.
 
 **udu -t /etc**  
-Display disk usage of /etc as a tree.
+Display disk usage of /etc in a tree form.
 
 **udu -X '\*.o' src/**  
 Summarize src/ but exclude object files.
@@ -73,10 +73,6 @@ Summarize two directories while excluding temp and cache.
 The **-X** (or **--exclude**) option uses shell pattern matching.  Patterns match against the full path being examined.
 
 For a more complete description of pattern matching, see **glob**(7).
-
-# AUTHOR
-
-Written by Ali Almalki.
 
 # BUGS
 
@@ -94,6 +90,6 @@ This documentation is under the terms of the GNU Free Documentation License, Ver
 
 # SEE ALSO
 
-**du**(1), **df**(1)
+**du**(1), **df**(1), **tree**(1), **glob**(7)
 
 Home page: <https://github.com/gnualmalki/udu>
